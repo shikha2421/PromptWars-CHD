@@ -1,518 +1,564 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SahayakAI (सहायक) | आसान साथी - गिग और दैनिक कामगारों के लिए</title>
-  <meta name="description" content="गिग डिलीवरी पार्टनर, ऑटो/कैब ड्राइवर और दैनिक कामगारों के लिए आसान बोलकर मदद करने वाला AI सहायक।">
+  <title>SahayakAI (सहायक साथी) | गिग वर्कर और ड्राइवरों के लिए आसान AI</title>
+  <meta name="description" content="गिग और दैनिक कामगारों के लिए सबसे आसान बोलकर सहायता करने वाला AI ऐप।">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Noto+Sans+Devanagari:wght@500;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Noto+Sans+Devanagari:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-  <!-- App Wrapper -->
-  <div class="layman-app" id="laymanApp">
-    
-    <!-- Top Friendly Header -->
-    <header class="layman-header">
-      <div class="header-brand">
-        <div class="brand-avatar">🛵</div>
-        <div class="brand-info">
-          <h1 class="brand-title">Sahayak<span class="highlight">AI</span> (सहायक)</h1>
-          <p class="brand-sub" id="headerSub">आपका डिजिटल साथी • बोलकर मदद पाएं</p>
-        </div>
+  <!-- Top Sticky Bar -->
+  <header class="app-top-header">
+    <div class="user-greeting">
+      <div class="worker-avatar">🛵</div>
+      <div class="greeting-text">
+        <span class="greeting-hi">नमस्ते साथी! 🙏</span>
+        <span class="greeting-badge">सहायक AI साथी</span>
       </div>
-
-      <div class="header-tools">
-        <!-- Language Switcher -->
-        <select id="languageSelect" class="lang-pill" title="अपनी भाषा चुनें">
-          <option value="hi" selected>🇮🇳 हिंदी</option>
-          <option value="hinglish">🇮🇳 Hinglish</option>
-          <option value="en">🌐 English</option>
-          <option value="ta">🇮🇳 தமிழ்</option>
-          <option value="te">🇮🇳 తెలుగు</option>
-          <option value="kn">🇮🇳 ಕನ್ನಡ</option>
-          <option value="bn">🇮🇳 বাংলা</option>
-        </select>
-
-        <!-- Sunlight Mode -->
-        <button id="sunlightToggle" class="sunlight-pill" title="तेज़ धूप में पढ़ने के लिए मोड">
-          ☀️ <span>धूप मोड</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- LIVE SPEAKING SUBTITLE BAR (Always Visible when speaking) -->
-    <div class="voice-speaker-bar" id="voiceSpeakerBar">
-      <div class="speaker-icon-box" id="speakerIconBox">
-        <span class="speaker-anim-wave">🔊</span>
-      </div>
-      <div class="speaker-text-box">
-        <div class="speaker-title" id="speakerTitle">सहायक साथी तैयार है</div>
-        <div class="speaker-subtitles" id="speakerSubtitles">"नीचे दिए गए माइक को दबाकर बोलें या किसी भी कार्ड पर टैप करें"</div>
-      </div>
-      <button class="speaker-replay-btn" id="speakerReplayBtn" title="दोबारा सुनो">🔄 दोबारा सुनो</button>
-      <button class="speaker-stop-btn" id="speakerStopBtn" title="बंद करें">✕</button>
     </div>
 
-    <!-- MAIN HERO: THE BIG PUSH-TO-TALK MIC -->
-    <section class="hero-voice-section">
-      <div class="mic-orbit-wrap">
-        <button id="mainMicBtn" class="big-mic-btn" aria-label="माइक दबाकर बोलें">
-          <span class="mic-symbol">🎙️</span>
-          <span class="mic-callout" id="micCallout">माइक दबाएं और बोलें</span>
-          <span class="mic-hint" id="micHint">Tap & Speak your problem</span>
-        </button>
-        <div class="mic-pulse-ring ring-1"></div>
-        <div class="mic-pulse-ring ring-2"></div>
+    <div class="header-right-tools">
+      <!-- Language Pills (hidden select kept for backward compatibility) -->
+      <select id="languageSelect" class="clean-lang-select" style="display:none;" title="भाषा चुनें">
+        <option value="hi" selected>हिंदी</option>
+        <option value="hinglish">Hinglish</option>
+        <option value="en">English</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+      </select>
+      <div class="lang-pills" id="langPills">
+        <button class="lang-pill active" data-lang="hi">🇮🇳 हिंदी</button>
+        <button class="lang-pill" data-lang="en">🌐 Eng</button>
+        <button class="lang-pill" data-lang="ta">தமிழ்</button>
+        <button class="lang-pill" data-lang="te">తెలుగు</button>
+        <button class="lang-pill" data-lang="bn">বাংলা</button>
       </div>
 
-      <!-- Quick 1-Tap Spoken Voice Questions (For Instant Demo) -->
-      <div class="quick-spoken-pills-wrap">
-        <div class="quick-pill-label">या सीधे इनमें से कोई सवाल पूछें:</div>
-        <div class="quick-pills-scroll">
-          <button class="voice-question-pill" data-scenario="fine">
-            <span>🌧️ "बारिश में ऑर्डर रद्द हुआ, ₹150 जुर्माना कट गया"</span>
+      <!-- Sunlight High-Contrast Toggle Switch -->
+      <div class="sun-toggle-wrap">
+        <label class="sun-switch" title="धूप में देखने के लिए">
+          <input type="checkbox" id="sunlightToggle">
+          <span class="sun-slider"></span>
+        </label>
+        <span class="sun-label">☀️</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- LIVE SOUNDBOX VOICE BANNER (Plays like Paytm/PhonePe Soundbox) -->
+  <div class="soundbox-banner" id="soundboxBanner">
+    <div class="soundbox-speaker" id="speakerIconBox">🔊</div>
+    <div class="soundbox-content">
+      <div class="soundbox-label" id="soundboxLabel">सहायक साथी की आवाज़:</div>
+      <div class="soundbox-text" id="soundboxText">"नमस्ते साथी! नीचे माइक दबाकर अपनी परेशानी बताएं।"</div>
+    </div>
+    <div class="soundbox-controls">
+      <button class="btn-sound-replay" id="speakerReplayBtn" title="दोबारा सुनो">🔄 सुनो</button>
+      <button class="btn-sound-stop" id="speakerStopBtn" title="आवाज़ बंद">✕</button>
+    </div>
+  </div>
+
+  <!-- MAIN SCROLLABLE APP BODY -->
+  <main class="app-body-container">
+
+    <!-- 1. BIG VOICE HERO BUTTON (Press & Speak) -->
+    <section class="voice-hero-card">
+      <div class="mic-button-wrapper">
+        <button id="mainMicBtn" class="big-round-mic" aria-label="माइक दबाकर बोलें">
+          <span class="mic-icon-large">🎙️</span>
+          <span class="mic-primary-label" id="micCallout">माइक दबाएं और बोलें</span>
+          <span class="mic-sub-hint">Tap to Speak</span>
+        </button>
+        <div class="pulse-aura aura-1"></div>
+        <div class="pulse-aura aura-2"></div>
+      </div>
+
+      <!-- Quick 1-Tap Voice Scenario Buttons -->
+      <div class="voice-presets-container">
+        <div class="presets-label">💡 या सीधे इन पर टैप करें:</div>
+        <div class="presets-grid">
+          <button class="preset-pill" data-scenario="fine">
+            🌧️ "बारिश में ₹150 फाइन कट गया"
           </button>
-          <button class="voice-question-pill" data-scenario="ban">
-            <span>🚫 "कस्टमर की गलत शिकायत से आईडी बंद हो गई"</span>
+          <button class="preset-pill" data-scenario="ban">
+            🚫 "आईडी ब्लॉक हो गई, चालू कराओ"
           </button>
-          <button class="voice-question-pill" data-scenario="earning">
-            <span>⛽ "आज ₹1200 कमाए, पेट्रोल काटकर कितना बचा?"</span>
+          <button class="preset-pill" data-scenario="earning">
+            ⛽ "आज पेट्रोल काटकर कितना बचा?"
           </button>
-          <button class="voice-question-pill" data-scenario="insurance">
-            <span>🛡️ "e-Shram कार्ड से 2 लाख का बीमा कैसे मिलेगा?"</span>
-          </button>
-          <button class="voice-question-pill" data-scenario="heat">
-            <span>☀️ "43°C धूप में काम करने के क्या नियम हैं?"</span>
+          <button class="preset-pill" data-scenario="insurance">
+            🛡️ "2 लाख का सरकारी बीमा कैसे लें?"
           </button>
         </div>
       </div>
     </section>
 
-    <!-- 4 BIG LAYMAN SOLUTION CARDS (Icon + Bold Vernacular) -->
-    <section class="layman-cards-grid">
-
-      <!-- CARD 1: REFUND & ID UNBLOCK -->
-      <div class="feature-card card-fine" id="cardFine">
-        <div class="card-icon-banner">
-          <span class="f-icon">🛑</span>
-          <div class="f-headings">
-            <h3>पैसे कटे या आईडी बंद हुई?</h3>
-            <p>कंपनी से जुर्माना वापस मांगें या आईडी चालू कराएं</p>
-          </div>
-        </div>
-        <button class="card-open-btn" onclick="openSectionModal('modalFine')">
-          <span>शुरू करें (Draft Appeal) →</span>
-        </button>
+    <!-- LIVE AI ANSWER CARD (Shows when answered) -->
+    <section class="ai-live-card" id="aiLiveCard" style="display: none;">
+      <div class="live-card-top">
+        <span class="live-badge">🤖 सहायक AI का जवाब:</span>
+        <button class="btn-voice-pill" id="listenAnswerBtn">🔊 बोलकर सुनो</button>
       </div>
-
-      <!-- CARD 2: REAL NET EARNING CALCULATOR -->
-      <div class="feature-card card-earning" id="cardEarning">
-        <div class="card-icon-banner">
-          <span class="f-icon">💰</span>
-          <div class="f-headings">
-            <h3>आज की असली कमाई (बचत)</h3>
-            <p>पेट्रोल और कमीशन काटकर हाथ में क्या बचा?</p>
-          </div>
-        </div>
-        <button class="card-open-btn" onclick="openSectionModal('modalEarning')">
-          <span>हिसाब लगाएं (Calculate Net) →</span>
-        </button>
+      <div class="live-card-content" id="liveCardContent">
+        <!-- Injected dynamically -->
       </div>
-
-      <!-- CARD 3: READ SLIP / SMS EXPLAINER -->
-      <div class="feature-card card-reader" id="cardReader">
-        <div class="card-icon-banner">
-          <span class="f-icon">📄</span>
-          <div class="f-headings">
-            <h3>मैसेज या पर्ची बोलकर पढ़वाएं</h3>
-            <p>कंपनी का नोटिस या चालान आसान भाषा में समझें</p>
-          </div>
-        </div>
-        <button class="card-open-btn" onclick="openSectionModal('modalReader')">
-          <span>मैसेज पढ़वाएं (Read Aloud) →</span>
-        </button>
-      </div>
-
-      <!-- CARD 4: FREE GOVT INSURANCE & SCHEMES -->
-      <div class="feature-card card-scheme" id="cardScheme">
-        <div class="card-icon-banner">
-          <span class="f-icon">🏛️</span>
-          <div class="f-headings">
-            <h3>₹2 लाख का सरकारी मुफ्त बीमा</h3>
-            <p>e-Shram और आयुष्मान भारत योजना की जानकारी</p>
-          </div>
-        </div>
-        <button class="card-open-btn" onclick="openSectionModal('modalScheme')">
-          <span>योजनाएं देखें (Govt Benefits) →</span>
-        </button>
-      </div>
-
-    </section>
-
-    <!-- LIVE AI RESPONSE DISPLAY CARD (Appears when voice is answered) -->
-    <section class="live-answer-card" id="liveAnswerCard" style="display: none;">
-      <div class="answer-header">
-        <span class="answer-badge">🤖 सहायक AI का उत्तर:</span>
-        <button class="btn-listen-answer" id="listenAnswerBtn">🔊 बोलकर सुनाओ</button>
-      </div>
-      <div class="answer-body" id="answerBodyText">
-        <!-- Text injected dynamically -->
-      </div>
-      <div class="answer-actions" id="answerActionsWrap">
-        <!-- Contextual action button -->
+      <div class="live-card-footer" id="liveCardFooter">
+        <!-- Action button -->
       </div>
     </section>
 
-    <!-- BOTTOM SAFETY & EMERGENCY DOCK -->
-    <footer class="layman-footer-dock">
-      <button class="btn-big-sos" id="sosTriggerBtn">
-        <span class="sos-icon">🚨</span>
-        <div class="sos-text-block">
-          <span class="sos-main">आपातकालीन मदद (EMERGENCY SOS)</span>
-          <span class="sos-sub">एक्सीडेंट / पुलिस / एम्बुलेंस 112</span>
+    <!-- 2. THE 4 BIG EVERYDAY WORKER ACTION TILES (PhonePe Style) -->
+    <section class="action-tiles-section">
+      <div class="section-title-bar">
+        <span>👇 आपको क्या मदद चाहिए?</span>
+      </div>
+
+      <div class="action-tiles-grid">
+
+        <!-- TILE 1: FINE REFUND -->
+        <div class="action-tile tile-fine" onclick="openLaymanModal('modalFine')">
+          <div class="tile-icon-wrap red-bg">🛑</div>
+          <div class="tile-text-wrap">
+            <h3 class="tile-title">कटे पैसे वापस पाएं</h3>
+            <p class="tile-desc">गलत जुर्माना रिफंड कराएं या बंद आईडी चालू कराएं</p>
+          </div>
+          <div class="tile-arrow-btn">शुरू करें ›</div>
+        </div>
+
+        <!-- TILE 2: REAL EARNING CALCULATOR -->
+        <div class="action-tile tile-earning" onclick="openLaymanModal('modalEarning')">
+          <div class="tile-icon-wrap green-bg">💰</div>
+          <div class="tile-text-wrap">
+            <h3 class="tile-title">आज की असली कमाई (बचत)</h3>
+            <p class="tile-desc">पेट्रोल का खर्चा काटकर अपनी जेब की शुद्ध बचत जानें</p>
+          </div>
+          <div class="tile-arrow-btn">हिसाब करें ›</div>
+        </div>
+
+        <!-- TILE 3: MESSAGE READER -->
+        <div class="action-tile tile-reader" onclick="openLaymanModal('modalReader')">
+          <div class="tile-icon-wrap cyan-bg">📄</div>
+          <div class="tile-text-wrap">
+            <h3 class="tile-title">मैसेज या पर्ची पढ़वाएं</h3>
+            <p class="tile-desc">कंपनी का नोटिस या चालान अपनी भाषा में बोलकर सुनें</p>
+          </div>
+          <div class="tile-arrow-btn">पढ़वाएं ›</div>
+        </div>
+
+        <!-- TILE 4: FREE GOVT INSURANCE -->
+        <div class="action-tile tile-scheme" onclick="openLaymanModal('modalScheme')">
+          <div class="tile-icon-wrap amber-bg">🏛️</div>
+          <div class="tile-text-wrap">
+            <h3 class="tile-title">₹2 लाख का मुफ्त सरकारी बीमा</h3>
+            <p class="tile-desc">e-Shram कार्ड व आयुष्मान भारत का सरकारी फायदा</p>
+          </div>
+          <div class="tile-arrow-btn">देखें ›</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. EMERGENCY SOS BUTTON (Big Red Bar) -->
+    <section class="emergency-bar-section">
+      <button class="btn-emergency-full" id="sosFullBtn">
+        <span class="sos-bell">🚨</span>
+        <div class="sos-labels">
+          <span class="sos-head">आपातकालीन मदद (EMERGENCY SOS)</span>
+          <span class="sos-details">एक्सीडेंट • पुलिस • एम्बुलेंस 112 / 108</span>
         </div>
       </button>
-    </footer>
+    </section>
 
-    <!-- =====================================================================
-         MODAL 1: FINE REFUND & DISPUTE GENERATOR (LAYMAN 2-CLICK)
-         ===================================================================== -->
-    <div class="layman-modal" id="modalFine" style="display: none;">
-      <div class="modal-card">
-        <div class="modal-top">
-          <h2>🛑 जुर्माना वापसी और आईडी अपील</h2>
-          <button class="modal-x" onclick="closeSectionModal('modalFine')">✕</button>
-        </div>
+  </main>
 
-        <div class="modal-inner-scroll">
-          <p class="modal-instruction">कंपनी का नाम चुनें और क्या हुआ था, बताइए:</p>
-
-          <div class="simple-form-group">
-            <label>1. किस कंपनी में काम करते हैं?</label>
-            <div class="select-chips-grid" id="finePlatformChips">
-              <button class="chip-choice active" data-val="Swiggy">Swiggy (स्विगी)</button>
-              <button class="chip-choice" data-val="Zomato">Zomato (ज़ोमैटो)</button>
-              <button class="chip-choice" data-val="Uber">Uber (उबर)</button>
-              <button class="chip-choice" data-val="Ola">Ola (ओला)</button>
-              <button class="chip-choice" data-val="Blinkit">Blinkit / Zepto</button>
-              <button class="chip-choice" data-val="Other">अन्य (Other)</button>
-            </div>
-          </div>
-
-          <div class="simple-form-group">
-            <label>2. क्या परेशानी हुई थी?</label>
-            <div class="select-chips-grid" id="fineReasonChips">
-              <button class="chip-choice active" data-val="rain">🌧️ भारी बारिश / जाम था</button>
-              <button class="chip-choice" data-val="puncture">🛞 बाइक खराब / पंचर हुई</button>
-              <button class="chip-choice" data-val="society">🏢 गेट पर गार्ड ने नहीं जाने दिया</button>
-              <button class="chip-choice" data-val="customer">😡 कस्टमर ने फोन नहीं उठाया</button>
-            </div>
-          </div>
-
-          <div class="simple-form-group">
-            <label>3. कितने रुपये कटे? (अनुमानित):</label>
-            <input type="number" id="fineAmountInput" class="big-number-input" value="150" placeholder="e.g. 150">
-          </div>
-
-          <button class="btn-create-letter" id="btnCreateLetter">
-            <span>⚡ अपील लेटर तैयार करें और बोलकर सुनाएं</span>
-          </button>
-
-          <!-- Generated Letter Result -->
-          <div class="letter-result-card" id="letterResultCard" style="display: none;">
-            <div class="result-top-bar">
-              <span class="status-tag">अपील पत्र तैयार है</span>
-              <button class="btn-read-aloud" id="readLetterBtn">🔊 पत्र को सुनो</button>
-            </div>
-            
-            <div class="easy-summary-box" id="easySummaryText">
-              <strong>सरल शब्दों में:</strong> हमने कंपनी को साफ लिखा है कि प्राकृतिक आपदा या खराबी के कारण यह देरी हुई थी। क्लॉज 4 के तहत जुर्माना वापस दिया जाए।
-            </div>
-
-            <div class="formal-preview-box" id="formalLetterPreview">
-              <!-- Formal text -->
-            </div>
-
-            <div class="letter-action-buttons">
-              <a href="#" id="sendWaLetterBtn" class="btn-share-wa">
-                💬 WhatsApp पर भेजें (Send on WhatsApp)
-              </a>
-              <a href="#" id="sendEmailLetterBtn" class="btn-share-email">
-                ✉️ सपोर्ट को ईमेल करें (Email Support)
-              </a>
-              <button class="btn-copy-letter" id="copyLetterBtn">
-                📋 कॉपी करें (Copy)
-              </button>
-            </div>
-          </div>
-
-        </div>
+  <!-- =====================================================================
+       LAYMAN MODAL 1: FINE REFUND & UNBLOCK ID
+       ===================================================================== -->
+  <div class="layman-sheet-backdrop" id="modalFine" style="display: none;">
+    <div class="layman-sheet-card">
+      <div class="sheet-header">
+        <h2>🛑 कटे पैसे वापस मांगें / अपील</h2>
+        <button class="btn-close-sheet" onclick="closeLaymanModal('modalFine')">✕</button>
       </div>
-    </div>
 
-    <!-- =====================================================================
-         MODAL 2: SIMPLE 3-INPUT EARNING CALCULATOR
-         ===================================================================== -->
-    <div class="layman-modal" id="modalEarning" style="display: none;">
-      <div class="modal-card">
-        <div class="modal-top">
-          <h2>💰 आज की असली कमाई (बचत)</h2>
-          <button class="modal-x" onclick="closeSectionModal('modalEarning')">✕</button>
+      <div class="sheet-scroll-body">
+        <!-- Step 1: Select Company -->
+        <div class="sheet-step-box">
+          <label class="step-label">1. आपकी कंपनी कौन सी है?</label>
+          <div class="chip-options-grid" id="companySelectChips">
+            <button class="chip-btn active" data-val="Swiggy">🛵 Swiggy (स्विगी)</button>
+            <button class="chip-btn" data-val="Zomato">🛵 Zomato (ज़ोमैटो)</button>
+            <button class="chip-btn" data-val="Uber">🚗 Uber (उबर)</button>
+            <button class="chip-btn" data-val="Ola">🛺 Ola (ओला)</button>
+            <button class="chip-btn" data-val="Blinkit">⚡ Blinkit / Zepto</button>
+            <button class="chip-btn" data-val="Other">अन्य (Other)</button>
+          </div>
         </div>
 
-        <div class="modal-inner-scroll">
-          <p class="modal-instruction">सिर्फ ये 3 बातें भरें, हम हिसाब बताएंगे:</p>
-
-          <div class="simple-form-group">
-            <label>1. आज ऐप में कुल कितने रुपये बने?</label>
-            <div class="input-with-symbol">
-              <span>₹</span>
-              <input type="number" id="calcGrossInput" class="big-number-input" value="1450">
-            </div>
+        <!-- Step 2: What Happened -->
+        <div class="sheet-step-box">
+          <label class="step-label">2. क्या हुआ था?</label>
+          <div class="chip-options-grid" id="reasonSelectChips">
+            <button class="chip-btn active" data-val="rain">🌧️ भारी बारिश या पानी भरा था</button>
+            <button class="chip-btn" data-val="puncture">🛞 बाइक का टायर पंचर हो गया था</button>
+            <button class="chip-btn" data-val="society">🏢 गेट पर गार्ड ने नहीं जाने दिया</button>
+            <button class="chip-btn" data-val="customer">😡 कस्टमर ने फोन नहीं उठाया</button>
           </div>
-
-          <div class="simple-form-group">
-            <label>2. आज पेट्रोल या चार्जिंग कितने की लगी?</label>
-            <div class="input-with-symbol">
-              <span>₹</span>
-              <input type="number" id="calcFuelInput" class="big-number-input" value="380">
-            </div>
-          </div>
-
-          <div class="simple-form-group">
-            <label>3. आज कुल कितने घंटे गाड़ी चलाई?</label>
-            <div class="input-with-symbol">
-              <span>⏱️</span>
-              <input type="number" id="calcHoursInput" class="big-number-input" value="8">
-            </div>
-          </div>
-
-          <button class="btn-create-letter" id="btnRunCalc">
-            <span>📊 असली बचत निकालें और सुनाएं</span>
-          </button>
-
-          <!-- Calculation Outcome Card -->
-          <div class="earning-outcome-card" id="earningOutcomeCard">
-            <div class="outcome-net-row">
-              <div class="outcome-title">आपकी असली जेब की बचत:</div>
-              <div class="outcome-amount" id="outcomeNetText">₹1,070</div>
-              <div class="outcome-sub" id="outcomeHourlyText">यानी लगभग ₹133.75 प्रति घंटा</div>
-            </div>
-
-            <div class="outcome-advice-box" id="outcomeAdviceText">
-              साथी, आज आपने कुल ₹1,450 की डिलीवरी की, जिसमें से ₹380 पेट्रोल में खर्च हुए। आपके हाथ में ₹1,070 शुद्ध बचत बची है।
-            </div>
-
-            <button class="btn-read-aloud" id="readEarningAudioBtn">
-              🔊 यह हिसाब बोलकर सुनो (Listen)
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- =====================================================================
-         MODAL 3: NOTICE & SLIP READER (REAL VOICE DECODER)
-         ===================================================================== -->
-    <div class="layman-modal" id="modalReader" style="display: none;">
-      <div class="modal-card">
-        <div class="modal-top">
-          <h2>📄 मैसेज या पर्ची बोलकर पढ़वाएं</h2>
-          <button class="modal-x" onclick="closeSectionModal('modalReader')">✕</button>
         </div>
 
-        <div class="modal-inner-scroll">
-          <p class="modal-instruction">कंपनी का आया मैसेज चुनें या यहाँ अपना मैसेज पेस्ट करें:</p>
-
-          <div class="sample-sms-list">
-            <button class="btn-sample-sms active" data-type="fine_sms">
-              📱 स्विगी/ज़ोमैटो: "Penalty of ₹150 for Cancellation"
-            </button>
-            <button class="btn-sample-sms" data-type="id_sms">
-              📱 उबर/ओला: "Your Account is Temporarily Blocked"
-            </button>
-            <button class="btn-sample-sms" data-type="tds_sms">
-              📱 टैक्स मैसेज: "1% TDS Withholding Notice"
-            </button>
+        <!-- Step 3: Amount -->
+        <div class="sheet-step-box">
+          <label class="step-label">3. कितने रुपये कटे? (अनुमानित):</label>
+          <div class="big-input-wrapper">
+            <span class="rupee-mark">₹</span>
+            <input type="number" id="fineAmountInput" class="large-amount-input" value="150">
           </div>
-
-          <!-- Quick Multilingual Data Test Chips -->
-          <div class="simple-form-group">
-            <label>🌐 किसी भी भारतीय भाषा में बोलकर पढ़वाएं (Tap to Test):</label>
-            <div class="multilingual-chips-row">
-              <button class="chip-lang-test" onclick="testMultilingualText('कल रात भारी बारिश में डिलीवरी लेट हुई, कंपनी ने 150 रुपये जुर्माना काटा है')">
-                🇮🇳 हिंदी (Hindi)
-              </button>
-              <button class="chip-lang-test" onclick="testMultilingualText('நேற்று இரவு மழையில் டெலிவரி தாமதமானதால் 150 ரூபாய் அபராதம் விதிக்கப்பட்டது')">
-                🇮🇳 தமிழ் (Tamil)
-              </button>
-              <button class="chip-lang-test" onclick="testMultilingualText('నిన్న రాత్రి వర్షం కారణంగా డెలివరీ ఆలస్యమైంది, 150 రూపాయల జరిమానా విధించారు')">
-                🇮🇳 తెలుగు (Telugu)
-              </button>
-              <button class="chip-lang-test" onclick="testMultilingualText('গতকাল রাতে বৃষ্টির জন্য ডেলিভারি দেরি হওয়ায় ১৫০ টাকা জরিমানা কাটা হয়েছে')">
-                🇮🇳 বাংলা (Bengali)
-              </button>
-              <button class="chip-lang-test" onclick="testMultilingualText('Order was cancelled due to bike breakdown, ₹150 penalty deducted from payout.')">
-                🌐 English / Hinglish
-              </button>
-            </div>
-          </div>
-
-          <div class="simple-form-group">
-            <label>या यहाँ कोई भी भाषा में मैसेज लिखें / पेस्ट करें:</label>
-            <textarea id="customSmsInput" rows="3" class="sms-textarea" placeholder="यहाँ अपनी भाषा में लिखा कोई भी मैसेज पेस्ट करें (Hindi, Tamil, Telugu, Bengali, English)..."></textarea>
-          </div>
-
-          <button class="btn-create-letter" id="btnDecodeSms">
-            <span>⚡ आसान हिंदी में समझें और बोलकर सुनो</span>
-          </button>
-
-          <!-- Decode Outcome Box -->
-          <div class="decoded-outcome-box" id="decodedOutcomeBox" style="display: none;">
-            <div class="decoded-badge">✓ सहायक विश्लेषण:</div>
-            
-            <div class="decoded-card-item">
-              <strong>1. मैसेज का क्या मतलब है?</strong>
-              <p id="decodedMeaning">कंपनी ने देर होने पर आपके ₹150 काट लिए हैं।</p>
-            </div>
-
-            <div class="decoded-card-item">
-              <strong>2. क्या यह सही है?</strong>
-              <p id="decodedFairness">अगर बारिश, ट्रैफिक या बाइक खराबी थी तो यह पेनाल्टी गलत है।</p>
-            </div>
-
-            <div class="decoded-card-item">
-              <strong>3. आपको क्या करना चाहिए?</strong>
-              <p id="decodedAction">नीचे दिए गए बटन से कंपनी को तुरंत अपील भेजें।</p>
-            </div>
-
-            <div class="decoded-bottom-actions">
-              <button class="btn-read-aloud" id="readDocAudioBtn">🔊 पूरा विश्लेषण सुनो</button>
-              <button class="btn-create-letter" onclick="closeSectionModal('modalReader'); openSectionModal('modalFine');">
-                🛑 इसके लिए अपील पत्र बनाएं
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- =====================================================================
-         MODAL 4: FREE GOVT INSURANCE & SCHEMES
-         ===================================================================== -->
-    <div class="layman-modal" id="modalScheme" style="display: none;">
-      <div class="modal-card">
-        <div class="modal-top">
-          <h2>🏛️ सरकारी योजनाएं और मुफ्त बीमा</h2>
-          <button class="modal-x" onclick="closeSectionModal('modalScheme')">✕</button>
         </div>
 
-        <div class="modal-inner-scroll">
-          <p class="modal-instruction">हर गिग और दैनिक कामगार को ये अधिकार मिले हैं:</p>
+        <button class="btn-giant-action" id="btnCreateFineAppeal">
+          ⚡ अपील पत्र तैयार करें (Create Appeal)
+        </button>
 
-          <!-- Scheme 1: e-Shram -->
-          <div class="scheme-big-card">
-            <div class="scheme-header-row">
-              <span class="badge-free">100% फ्री</span>
-              <h3>ई-श्रम कार्ड (e-Shram Card)</h3>
-            </div>
-            <div class="scheme-benefit">₹2,00,000 का मुफ्त दुर्घटना बीमा</div>
-            <ul class="scheme-points">
-              <li>गाड़ी चलाते समय दुर्घटना या चोट लगने पर 2 लाख रुपये तक की सरकारी मदद।</li>
-              <li>रजिस्ट्रेशन बिल्कुल फ्री है, कोई पैसा नहीं लगता।</li>
-              <li>जरूरी कागज़: सिर्फ <strong>आधार कार्ड</strong> और <strong>बैंक खाता</strong>।</li>
-            </ul>
-            <div class="scheme-btns">
-              <button class="btn-read-aloud" onclick="speakText('ई-श्रम कार्ड पर दो लाख रुपये का दुर्घटना बीमा बिल्कुल मुफ्त मिलता है। इसके लिए आधार कार्ड और बैंक खाते से किसी भी जन सेवा केंद्र पर जाकर फ्री रजिस्ट्रेशन कराएं।')">
-                🔊 बोलकर सुनो
-              </button>
-            </div>
+        <!-- Result Box -->
+        <div class="appeal-result-box" id="fineAppealResult" style="display: none;">
+          <div class="result-top">
+            <span class="success-badge">✅ अपील पत्र तैयार है</span>
+            <button class="btn-voice-mini" id="listenFineAppealBtn">🔊 पत्र सुनो</button>
           </div>
 
-          <!-- Scheme 2: Ayushman Bharat -->
-          <div class="scheme-big-card">
-            <div class="scheme-header-row">
-              <span class="badge-free">परिवार के लिए</span>
-              <h3>आयुष्मान भारत गोल्डन कार्ड (PM-JAY)</h3>
-            </div>
-            <div class="scheme-benefit">₹5,00,000 का मुफ्त इलाज हर साल</div>
-            <ul class="scheme-points">
-              <li>सरकारी और बड़े प्राइवेट अस्पतालों में ऑपरेशन व भर्ती का खर्चा मुफ्त।</li>
-              <li>दवाइयां और डॉक्टर की फीस सब शामिल।</li>
-            </ul>
-            <div class="scheme-btns">
-              <button class="btn-read-aloud" onclick="speakText('आयुष्मान भारत के तहत आपके पूरे परिवार को हर साल पांच लाख रुपये तक का मुफ्त इलाज और ऑपरेशन सरकारी व प्राइवेट अस्पतालों में मिलता है।')">
-                🔊 बोलकर सुनो
-              </button>
-            </div>
+          <div class="simple-hindi-explanation" id="fineSimpleSummary">
+            <!-- Plain Hindi Explanation -->
           </div>
 
-          <!-- Scheme 3: State Gig Act -->
-          <div class="scheme-big-card">
-            <div class="scheme-header-row">
-              <span class="badge-free">नया कानून</span>
-              <h3>गीग वर्कर सुरक्षा कानून</h3>
-            </div>
-            <div class="scheme-benefit">बिना नोटिस आईडी बंद नहीं हो सकती</div>
-            <ul class="scheme-points">
-              <li>कंपनी को कोई भी आईडी बंद करने से पहले 14 दिन का नोटिस देना अनिवार्य है।</li>
-              <li>गलत पेनल्टी के खिलाफ सरकारी लेबर ऑफिसर के पास अपील का हक।</li>
-            </ul>
-            <div class="scheme-btns">
-              <button class="btn-read-aloud" onclick="speakText('गीग वर्कर वेलफेयर एक्ट के तहत कंपनी बिना 14 दिन के नोटिस के आपकी आईडी ब्लॉक नहीं कर सकती। मनमानी पेनाल्टी के खिलाफ आपको लेबर ऑफिसर के पास अपील का अधिकार है।')">
-                🔊 बोलकर सुनो
-              </button>
-            </div>
+          <div class="formal-english-preview" id="fineFormalLetter">
+            <!-- Formal letter for support -->
           </div>
 
-        </div>
-      </div>
-    </div>
-
-    <!-- =====================================================================
-         MODAL 5: EMERGENCY SOS
-         ===================================================================== -->
-    <div class="layman-modal" id="modalSos" style="display: none;">
-      <div class="modal-card sos-modal-bg">
-        <div class="modal-top">
-          <h2>🚨 आपातकालीन मदद (EMERGENCY)</h2>
-          <button class="modal-x" onclick="closeSectionModal('modalSos')">✕</button>
-        </div>
-
-        <div class="modal-inner-scroll">
-          <div class="gps-notice-card">
-            <span>📍 आपकी वर्तमान लोकेशन: <strong>रिंग रोड, दिल्ली (Delhi NCR)</strong></span>
-          </div>
-
-          <div class="sos-call-stack">
-            <a href="tel:112" class="btn-sos-large red">
-              📞 राष्ट्रीय आपातकाल 112 मिलाएं (Police / Fire / Help)
+          <div class="share-actions-stack">
+            <a href="#" id="sendWhatsAppAppealBtn" class="btn-action-whatsapp">
+              💬 WhatsApp पर सपोर्ट को भेजें (Send on WhatsApp)
             </a>
-            <a href="tel:108" class="btn-sos-large orange">
-              🚑 सरकारी एम्बुलेंस 108 बुलाएं (Accident Ambulance)
+            <a href="#" id="sendEmailAppealBtn" class="btn-action-email">
+              ✉️ ईमेल पर भेजें (Send Email)
             </a>
-            <button class="btn-sos-large green" id="sendSosWaDirectBtn">
-              💬 परिवार को लोकेशन के साथ SOS WhatsApp भेजें
+            <button class="btn-action-copy" id="copyAppealTextBtn">
+              📋 कॉपी करें (Copy Text)
             </button>
           </div>
+        </div>
 
-          <div class="hospital-box">
-            <h4>🏥 नजदीकी सरकारी फ्री ट्रॉमा सेंटर:</h4>
-            <p>• <strong>AIIMS ट्रॉमा सेंटर</strong> (2.5 किमी - 24 घंटे खुला)</p>
-            <p>• <strong>सफदरजंग अस्पताल</strong> (3.2 किमी - फ्री इमरजेंसी)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       LAYMAN MODAL 2: SIMPLE 3-INPUT EARNING CALCULATOR
+       ===================================================================== -->
+  <div class="layman-sheet-backdrop" id="modalEarning" style="display: none;">
+    <div class="layman-sheet-card">
+      <div class="sheet-header">
+        <h2>💰 आज की असली कमाई (हिसाब-किताब)</h2>
+        <button class="btn-close-sheet" onclick="closeLaymanModal('modalEarning')">✕</button>
+      </div>
+
+      <div class="sheet-scroll-body">
+        <p class="sheet-intro">सिर्फ ये 3 बातें भरें, हम आपकी जेब की असली बचत बताएंगे:</p>
+
+        <div class="sheet-step-box">
+          <label class="step-label">1. आज ऐप में कुल कितने रुपये बने?</label>
+          <div class="big-input-wrapper">
+            <span class="rupee-mark">₹</span>
+            <input type="number" id="calcGrossInput" class="large-amount-input" value="1500">
           </div>
+        </div>
+
+        <div class="sheet-step-box">
+          <label class="step-label">2. आज पेट्रोल या चार्जिंग में कितना खर्च हुआ?</label>
+          <div class="big-input-wrapper">
+            <span class="rupee-mark">₹</span>
+            <input type="number" id="calcFuelInput" class="large-amount-input" value="400">
+          </div>
+        </div>
+
+        <div class="sheet-step-box">
+          <label class="step-label">3. आज कुल कितने घंटे गाड़ी चलाई?</label>
+          <div class="big-input-wrapper">
+            <span class="rupee-mark">⏱️</span>
+            <input type="number" id="calcHoursInput" class="large-amount-input" value="8">
+          </div>
+        </div>
+
+        <button class="btn-giant-action" id="btnCalculateNet">
+          📊 असली बचत निकालें (Calculate Earning)
+        </button>
+
+        <!-- Earning Outcome Result -->
+        <div class="earning-result-card" id="earningResultCard">
+          <div class="result-net-header">आपकी जेब की शुद्ध बचत:</div>
+          <div class="result-net-amount" id="netAmountText">₹1,100</div>
+          <div class="result-hourly-rate" id="netHourlyText">यानी लगभग ₹137.50 प्रति घंटा</div>
+
+          <div class="result-voice-summary" id="netVoiceSummaryText">
+            साथी, आज आपने ₹1,500 की डिलीवरी की, जिसमें से ₹400 पेट्रोल लगा। आपकी शुद्ध बचत ₹1,100 बची है।
+          </div>
+
+          <button class="btn-giant-voice" id="readEarningVoiceBtn">
+            🔊 यह हिसाब बोलकर सुनो (Listen)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       LAYMAN MODAL 3: NOTICE & MULTILINGUAL SLIP READER
+       ===================================================================== -->
+  <div class="layman-sheet-backdrop" id="modalReader" style="display: none;">
+    <div class="layman-sheet-card">
+      <div class="sheet-header">
+        <h2>📄 मैसेज या पर्ची बोलकर पढ़वाएं</h2>
+        <button class="btn-close-sheet" onclick="closeLaymanModal('modalReader')">✕</button>
+      </div>
+
+      <div class="sheet-scroll-body">
+        <p class="sheet-intro">कंपनी का मैसेज चुनें या नीचे अपनी भाषा में पेस्ट करें:</p>
+
+        <!-- Common Company Messages -->
+        <div class="quick-sms-list">
+          <button class="btn-quick-sms active" data-type="fine_sms">
+            📱 स्विगी/ज़ोमैटो: "Penalty of ₹150 for Order Cancellation"
+          </button>
+          <button class="btn-quick-sms" data-type="id_sms">
+            📱 उबर/ओला: "Your Account is Temporarily Blocked"
+          </button>
+          <button class="btn-quick-sms" data-type="tds_sms">
+            📱 टैक्स मैसेज: "1% TDS Withheld under Section 194O"
+          </button>
+        </div>
+
+        <!-- 1-Tap Multilingual Language Tests -->
+        <div class="multilingual-tester-box">
+          <label class="step-label">🌐 किसी भी भारतीय भाषा में बोलकर सुनें (Tap to Test):</label>
+          <div class="lang-chips-stack">
+            <button class="btn-lang-chip"
+              onclick="readSampleLanguage('कल रात भारी बारिश में डिलीवरी 20 मिनट लेट हुई, कंपनी ने 150 रुपये जुर्माना काटा है')">
+              🇮🇳 हिंदी (Hindi)
+            </button>
+            <button class="btn-lang-chip"
+              onclick="readSampleLanguage('நேற்று இரவு மழையில் டெலிவரி தாமதமானதால் 150 ரூபாய் அபராதம் விதிக்கப்பட்டது')">
+              🇮🇳 தமிழ் (Tamil)
+            </button>
+            <button class="btn-lang-chip"
+              onclick="readSampleLanguage('నిన్న రాత్రి వర్షం కారణంగా డెలివరీ ఆలస్యమైంది, 150 రూపాయల జరిమానా విధించారు')">
+              🇮🇳 తెలుగు (Telugu)
+            </button>
+            <button class="btn-lang-chip"
+              onclick="readSampleLanguage('গতকাল রাতে বৃষ্টির জন্য ডেলিভারি দেরি হওয়ায় ১৫০ টাকা জরিমানা কাটা হয়েছে')">
+              🇮🇳 বাংলা (Bengali)
+            </button>
+            <button class="btn-lang-chip"
+              onclick="readSampleLanguage('Order was cancelled due to bike breakdown, ₹150 penalty deducted from payout.')">
+              🌐 English / Hinglish
+            </button>
+          </div>
+        </div>
+
+        <div class="sheet-step-box">
+          <label class="step-label">या अपना कोई भी मैसेज यहाँ पेस्ट करें:</label>
+          <textarea id="customSmsInput" rows="3" class="sms-input-box"
+            placeholder="यहाँ कंपनी का मैसेज पेस्ट करें या लिखें..."></textarea>
+        </div>
+
+        <button class="btn-giant-action" id="btnDecodeNotice">
+          ⚡ आसान भाषा में समझें और बोलकर सुनो
+        </button>
+
+        <!-- Decoded Result -->
+        <div class="decoded-result-box" id="decodedNoticeBox" style="display: none;">
+          <div class="decoded-top-badge">✓ सहायक का सरल विश्लेषण:</div>
+
+          <div class="decoded-answer-point">
+            <strong>1. क्या हुआ है? (What happened?)</strong>
+            <p id="decPoint1">कंपनी ने देर होने पर आपके ₹150 काट लिए हैं।</p>
+          </div>
+
+          <div class="decoded-answer-point">
+            <strong>2. क्या यह सही है? (Is it fair?)</strong>
+            <p id="decPoint2">अगर बारिश, ट्रैफिक जाम या बाइक पंचर थी तो यह पेनाल्टी गलत है।</p>
+          </div>
+
+          <div class="decoded-answer-point">
+            <strong>3. आपको क्या करना है? (Action)</strong>
+            <p id="decPoint3">नीचे दिए गए बटन से कंपनी को तुरंत अपील भेजें।</p>
+          </div>
+
+          <div class="decoded-action-row">
+            <button class="btn-giant-voice" id="readDecodedNoticeBtn">
+              🔊 पूरा विश्लेषण बोलकर सुनो
+            </button>
+            <button class="btn-giant-action" onclick="closeLaymanModal('modalReader'); openLaymanModal('modalFine');">
+              🛑 इसके लिए अपील पत्र बनाएं
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       LAYMAN MODAL 4: FREE GOVT INSURANCE & SCHEMES
+       ===================================================================== -->
+  <div class="layman-sheet-backdrop" id="modalScheme" style="display: none;">
+    <div class="layman-sheet-card">
+      <div class="sheet-header">
+        <h2>🏛️ सरकारी योजनाएं और मुफ्त बीमा</h2>
+        <button class="btn-close-sheet" onclick="closeLaymanModal('modalScheme')">✕</button>
+      </div>
+
+      <div class="sheet-scroll-body">
+        <p class="sheet-intro">हर गिग और दैनिक कामगार को ये सरकारी अधिकार मिले हैं:</p>
+
+        <!-- Scheme 1: e-Shram -->
+        <div class="scheme-simple-card">
+          <div class="scheme-top-row">
+            <span class="pill-tag-free">100% फ्री</span>
+            <h3>ई-श्रम कार्ड (e-Shram Card)</h3>
+          </div>
+          <div class="scheme-big-benefit">₹2,00,000 का मुफ्त दुर्घटना बीमा</div>
+          <p class="scheme-easy-text">काम के दौरान चोट लगने या दुर्घटना होने पर 2 लाख रुपये तक की सरकारी मदद।</p>
+          <div class="scheme-docs-row">
+            <span>📄 जरूरी कागज़: सिर्फ <strong>आधार कार्ड</strong> और <strong>बैंक पासबुक</strong></span>
+          </div>
+          <button class="btn-voice-mini"
+            onclick="speakText('ई-श्रम कार्ड पर दो लाख रुपये का दुर्घटना बीमा बिल्कुल मुफ्त मिलता है। इसके लिए आधार कार्ड और बैंक खाते से किसी भी जन सेवा केंद्र पर जाकर फ्री रजिस्ट्रेशन कराएं।', 'hi')">
+            🔊 बोलकर सुनो (Listen)
+          </button>
+        </div>
+
+        <!-- Scheme 2: Ayushman Bharat -->
+        <div class="scheme-simple-card">
+          <div class="scheme-top-row">
+            <span class="pill-tag-free">पूरे परिवार के लिए</span>
+            <h3>आयुष्मान भारत गोल्डन कार्ड (PM-JAY)</h3>
+          </div>
+          <div class="scheme-big-benefit">₹5,00,000 का मुफ्त इलाज हर साल</div>
+          <p class="scheme-easy-text">सरकारी और प्राइवेट अस्पतालों में ऑपरेशन, भर्ती और दवाइयों का खर्चा बिल्कुल मुफ्त।
+          </p>
+          <button class="btn-voice-mini"
+            onclick="speakText('आयुष्मान भारत के तहत आपके पूरे परिवार को हर साल पांच लाख रुपये तक का मुफ्त इलाज और ऑपरेशन सरकारी व प्राइवेट अस्पतालों में मिलता है।', 'hi')">
+            🔊 बोलकर सुनो (Listen)
+          </button>
+        </div>
+
+        <!-- Scheme 3: Gig Worker Board -->
+        <div class="scheme-simple-card">
+          <div class="scheme-top-row">
+            <span class="pill-tag-free">नया कानून</span>
+            <h3>गीग वर्कर सुरक्षा कानून</h3>
+          </div>
+          <div class="scheme-big-benefit">बिना 14 दिन नोटिस आईडी बंद नहीं हो सकती</div>
+          <p class="scheme-easy-text">कंपनी मनमाने तरीके से आईडी ब्लॉक नहीं कर सकती। गलत पेनल्टी के खिलाफ लेबर ऑफिसर के
+            पास अपील का हक है।</p>
+          <button class="btn-voice-mini"
+            onclick="speakText('गीग वर्कर वेलफेयर एक्ट के तहत कंपनी बिना 14 दिन के नोटिस के आपकी आईडी ब्लॉक नहीं कर सकती। मनमानी पेनाल्टी के खिलाफ आपको लेबर ऑफिसर के पास अपील का अधिकार है।', 'hi')">
+            🔊 बोलकर सुनो (Listen)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       LAYMAN MODAL 5: EMERGENCY SOS
+       ===================================================================== -->
+  <div class="layman-sheet-backdrop" id="modalSos" style="display: none;">
+    <div class="layman-sheet-card sos-card-bg">
+      <div class="sheet-header">
+        <h2>🚨 आपातकालीन मदद (EMERGENCY)</h2>
+        <button class="btn-close-sheet" onclick="closeLaymanModal('modalSos')">✕</button>
+      </div>
+
+      <div class="sheet-scroll-body">
+        <div class="gps-strip-box">
+          <span>📍 आपकी वर्तमान लोकेशन: <strong>रिंग रोड, दिल्ली (Delhi NCR)</strong></span>
+        </div>
+
+        <div class="sos-call-buttons">
+          <a href="tel:112" class="btn-giant-sos-call red">
+            📞 राष्ट्रीय आपातकाल 112 मिलाएं (Police / Ambulance)
+          </a>
+          <a href="tel:108" class="btn-giant-sos-call orange">
+            🚑 सड़क दुर्घटना एम्बुलेंस 108 बुलाएं
+          </a>
+          <button class="btn-giant-sos-call green" id="sendDirectSosWhatsapp">
+            💬 परिवार को लोकेशन के साथ WhatsApp अलर्ट भेजें
+          </button>
+        </div>
+
+        <div class="hospitals-quick-box">
+          <h4>🏥 नजदीकी सरकारी फ्री ट्रॉमा सेंटर:</h4>
+          <p>• <strong>AIIMS ट्रॉमा सेंटर</strong> (2.4 किमी - 24 घंटे खुला)</p>
+          <p>• <strong>सफदरजंग अस्पताल</strong> (3.1 किमी - फ्री इमरजेंसी)</p>
         </div>
       </div>
     </div>
-
-  </div> <!-- /layman-app -->
+  </div>
 
   <script src="app.js"></script>
+
+  <!-- =====================================================================
+       ONBOARDING CAROUSEL (shows once on first visit, auto-plays audio)
+       ===================================================================== -->
+  <div class="onboard-overlay hidden" id="onboardCarousel">
+    <div class="onboard-card">
+      <!-- Progress dots -->
+      <div class="onboard-dots">
+        <span class="dot active" id="dot0"></span>
+        <span class="dot" id="dot1"></span>
+        <span class="dot" id="dot2"></span>
+      </div>
+
+      <!-- Slide 1 -->
+      <div class="onboard-slide" id="slide0">
+        <div class="onboard-emoji">🎙️</div>
+        <h2 class="onboard-title">माइक दबाकर बोलें</h2>
+        <p class="onboard-desc">नीचे बड़ा माइक बटन दबाएं और अपनी परेशानी बताएं। सहायक AI सुनेगा और जवाब देगा।</p>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="onboard-slide hidden" id="slide1">
+        <div class="onboard-emoji">⚡</div>
+        <h2 class="onboard-title">टाइल टैप करें</h2>
+        <p class="onboard-desc">कटे पैसे वापस पाएं, कमाई देखें, सरकारी बीमा — सब कुछ एक टैप में।</p>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="onboard-slide hidden" id="slide2">
+        <div class="onboard-emoji">🚨</div>
+        <h2 class="onboard-title">SOS — आपातकाल</h2>
+        <p class="onboard-desc">एक्सीडेंट या खतरे में? नीचे लाल SOS बटन दबाएं। 112 / 108 तुरंत मिलेंगे।</p>
+      </div>
+
+      <!-- Navigation -->
+      <div class="onboard-nav">
+        <button class="btn-onboard-next" id="onboardNextBtn">आगे ›</button>
+        <button class="btn-onboard-skip" id="onboardSkipBtn">छोड़ें</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
